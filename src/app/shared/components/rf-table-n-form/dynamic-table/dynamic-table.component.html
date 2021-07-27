@@ -1,0 +1,52 @@
+<div class="col-12 table-responsive">
+    <!-----------TABLE------------ -->
+    <table class="table">
+      <!------------ HEADERS --------------->
+      <thead>
+        <tr>
+          <th scope="col" *ngFor="let columnHead of colFields">
+            {{ columnHead.label }}
+          </th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+  
+      <!---------------CONTENT--------------- -->
+      <tbody>
+        <tr *ngFor="let columnData of colData; let i = index">
+         
+          <td
+            title="{{ columnHead.label }}"
+            *ngFor="let columnHead of colFields"
+          >
+            <ng-container *ngIf = "columnHead.key == 'createdOn';else shortdates">
+              {{ columnData[columnHead.key]  | date:'medium' }}
+            </ng-container>
+            <ng-template #shortdates>
+              <ng-container *ngIf = "columnHead.type == 'date'; else othertypes">  {{ columnData[columnHead.key]  | date:'shortDate' }}</ng-container>
+            </ng-template>
+            <ng-template #othertypes>  {{ columnData[columnHead.key] }}</ng-template>
+
+          </td>
+          <td title="Actions" class="actions-blk">
+            <div class="btn-container d-flex justify-space-around">
+              <button
+                type="button"
+                class="btn btn-icon btn-primary rounded-circle"
+                (click)="onEditForm(columnData)"
+              >
+                <i class="bi bi-pencil-square"></i>
+              </button>
+  
+              <button
+                type="button"
+                class="btn btn-primary btn-icon rounded-circle"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

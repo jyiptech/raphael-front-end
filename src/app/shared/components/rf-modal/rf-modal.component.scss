@@ -1,0 +1,70 @@
+/* MODAL STYLES
+-------------------------------*/
+app-rf-modal {
+  /* modals are hidden by default */
+  display: none;
+
+  .rf-modal {
+    /* modal container fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    /* z-index must be higher than .rf-modal-background */
+    z-index: 1000;
+
+    /* enables scrolling for tall modals */
+    overflow: auto;
+
+    .rf-modal-body {
+      padding: 20px;
+      background: #fff;
+      /* margin exposes part of the modal background */
+      margin: 40px;
+      padding: 2rem;
+      border-radius: 25px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      .form-group {
+        margin-bottom: 0.5rem;
+        label {
+          color: rgb(90, 90, 90);
+        }
+        input {
+          color: rgb(90, 90, 90);
+        }
+      }
+      .custom-checkbox {
+        display: flex;
+        align-items: flex-end;
+        gap: 1rem;
+        .form-check {
+          display: inline-block;
+        }
+      }
+    }
+  }
+
+  .rf-modal-background {
+    /* modal background fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    /* semi-transparent black  */
+    background-color: #000;
+    opacity: 0.75;
+
+    /* z-index must be below .rf-modal and above everything else  */
+    z-index: 900;
+  }
+}
+
+body.rf-modal-open {
+  /* body overflow is hidden to hide main scrollbar when modal window is open */
+  overflow: hidden;
+}

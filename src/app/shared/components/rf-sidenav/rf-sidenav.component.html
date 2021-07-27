@@ -1,0 +1,63 @@
+<!-- Sidebar -->
+<div class="s-layout-sidebar">
+  <!--- TRIGGER BUTTON TO OPEN AND CLOSE SIDENAV IN MOBILE VIEW --- -->
+  <div class="s-sidebar-trigger">
+    <button
+      class="rounded-circle border-0 toggle-btn btn btn-primary btn-icon"
+      (click)="toggleOpen()"
+    >
+      <i class="bi bi-list"></i>
+    </button>
+  </div>
+
+  <nav class="s-sidebar-nav" [class.open]="isOpen" [class.close]="!isOpen">
+    <!-- JY LOGO -->
+    <a
+      title="Jesus Youth"
+      href="/"
+      class="d-flex align-items-center text-decoration-none nav-title-wrap"
+    >
+      <img alt="Jesus Youth Logo" src="/assets/JY_Logo.png" />
+      <span class="fs-3 mx-2 nav-title"> Raphael </span>
+    </a>
+    <hr />
+
+    <ul>
+      <!-- SIGNOUT AND DELETE -->
+      <li>
+        <a class="s-sidebar-nav-link" (click)="signOut()">
+          <i class="bi bi-box-arrow-left"></i>
+          <em>Sign Out</em>
+        </a>
+      </li>
+
+      <li>
+        <a class="s-sidebar-nav-link" (click)="deleteAccount()">
+          <i class="bi bi-trash"></i>
+          <em>Delete Account</em>
+        </a>
+      </li>
+
+      <hr>
+      <!-- HOME MENU ITEM -->
+
+      <li>
+        <a class="s-sidebar-nav-link">
+          <i class="bi bi-house"></i>
+          <em>Home</em>
+        </a>
+      </li>
+
+     
+      <!-- Page list -->
+      <li *ngFor="let menu of menuList">
+        <a class="s-sidebar-nav-link" (click)="navToPage(menu)">
+          <i class="bi " [ngClass]="'bi-'+ pageInfo[menu].logo"></i>
+          <em>{{ getCapsMenuName(menu) }}</em>
+        </a>
+      </li>
+
+     
+    </ul>
+  </nav>
+</div>

@@ -1,0 +1,16 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="form" class="row" *ngIf="dynFields">
+  <ng-container *ngFor="let field of dynFields">
+    <app-dynamic-form-field-set
+      [field]="field"
+      [form]="form"
+      class="col-md-6"
+    ></app-dynamic-form-field-set>
+  </ng-container>
+
+  <div class="col-md-12 py-2">
+    <button type="button" class="btn btn-primary" (click)="onSubmit()">
+      Submit
+    </button>
+  </div>
+</form>
+

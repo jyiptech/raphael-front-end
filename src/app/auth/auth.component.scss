@@ -1,0 +1,130 @@
+:host {
+  width: 100%;
+  display: block;
+  background: #4e73df ; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    180deg,
+    #4e73df 10%,
+    #224abe 100%
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    180deg,
+    #4e73df 10%,
+    #224abe 100%
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.container-fluid {
+ padding: 0;
+ height: 80vh;
+ position: relative;
+ top: -5vh;
+}
+.title {
+  text-align: center;
+  height: 20vh;
+  margin: auto;
+  color: white;
+
+  img {
+    width: 3rem;
+  }
+}
+
+.card {
+  box-shadow: 0px 4px 8px 0px rgb(85, 88, 114);
+  transition: background-color 0.5s linear;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 250px;
+  .card-header {
+    padding: 1.5rem 2.5rem;
+
+    .border-line {
+      border-right: 1px solid #eeeeee;
+    }
+    .line {
+      height: 1px;
+      width: 35%;
+      background-color: #e0e0e0;
+    }
+    .or {
+      width: 25%;
+      font-weight: bold;
+    }
+    h6 {
+      margin-right: 0.5rem;
+    }
+  }
+  .card-body {
+    padding: 2rem 2.5rem;
+    input[type="checkbox"] {
+      margin-right: 1rem;
+    }
+    .btn-container {
+      padding: 0.5rem 1rem;
+    }
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 1);
+  }
+}
+
+::placeholder {
+  color: #bdbdbd;
+  opacity: 1;
+  font-weight: 300;
+}
+
+:-ms-input-placeholder {
+  color: #bdbdbd;
+  font-weight: 300;
+}
+
+::-ms-input-placeholder {
+  color: #bdbdbd;
+  font-weight: 300;
+}
+
+input:not([type="checkbox"]) {
+  //   padding: 5px 10px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  //   margin: 0.5rem 0;
+  width: 100%;
+  box-sizing: border-box;
+  color: #2c3e50;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+input:focus,
+textarea:focus {
+  -moz-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  border: 1px solid #304ffe;
+  outline-width: 0;
+}
+
+@media (min-width: 768px) {
+  .card {
+    max-width: 300px;
+
+    .card-header {
+      padding: 1rem 1.5rem;
+    }
+    .card-body {
+      padding: 1rem 2rem;
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .card {
+    max-width: 350px;
+  }
+}

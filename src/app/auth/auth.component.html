@@ -1,0 +1,101 @@
+<!------RAPHAEL TITLE------ -->
+<div class="title d-flex align-items-center justify-content-center">
+  <h3 class="">
+    <img alt="Jesus Youth Logo" src="/assets/JY_Logo.png" />
+    Raphael
+  </h3>
+</div>
+
+<!-- ----------LOGIN CARD ---------->
+<div
+  class="
+    container-fluid
+    d-flex flex-column
+    justify-content-center align-items-center
+  "
+>
+<!-- LOADING SPINNER -->
+  <app-loading-ripple *ngIf = "isLoading"></app-loading-ripple>
+  <!-----------------CARD------------------ -->
+  <div class="card border-0" *ngIf="!isLoading">
+    <div class="gradient"></div>
+    <!------------HEADER---------- -->
+    <div class="card-header">
+      <h6 class="d-inline-block mb-0">Sign in with</h6>
+      <button
+        type="button"
+        class="btn btn-icon rounded-circle btn-primary"
+        (click)="signInWithGoogle()"
+      >
+        <i class="bi bi-google"></i>
+      </button>
+      <!------------- OR --------------->
+      <div class="row d-flex justify-content-center align-items-center mt-2 ">
+        <div class="line"></div>
+        <small class="or text-center">Or</small>
+        <div class="line"></div>
+      </div>
+    </div>
+
+    <!-- -------------BODY------------- -->
+    <div class="card-body">
+      <!-----------FORM--------- -->
+      <form #authForm="ngForm" (ngSubmit)="signIn(authForm)">
+        <!-------------EMAIL ADDRESS------------- -->
+        <div class="form-group row">
+          <label for="email"> <h6>Email Address</h6></label>
+          <input
+            type="email"
+            id="email"
+            class="form-control"
+            ngModel
+            name="email"
+            required
+            email
+          />
+        </div>
+
+        <!-------PASSWORD------- -->
+        <div class="form-group row">
+          <label for="password"> <h6>Password</h6></label>
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            ngModel
+            name="password"
+            required
+            minlength="6"
+          />
+        </div>
+
+        <!-- REMEMBER ME -->
+        <!-- <div class="d-flex justify-content-between">
+          <div class="d-inline-block">
+            <input id="chk1" type="checkbox" name="chk" />
+            <label for="chk1" class="text-sm">Remember me</label>
+          </div>
+          <a href="#" class="text-sm d-inline-block">Forgot Password?</a>
+        </div> -->
+
+        
+        <!---------BUTTON CONTROLS ------- -->
+        <div class="row btn-container">
+          <button type="submit" class="btn btn-primary text-center" [disabled]="!authForm.valid">
+            Login
+          </button>
+        </div>
+      </form>
+
+      <div class="alert alert-danger m-0 p-0 text-center" *ngIf="errorMessage">
+        <p class="mb-0">{{ errorMessage }}</p>
+      </div>
+      <!-------SWITCH TO SIGNUP----------- -->
+      <!-- <div class="row">
+        <small class="font-weight-bold"
+          >Don't have an account? <a class="text-danger">Register</a></small
+        >
+      </div> -->
+    </div>
+  </div>
+</div>

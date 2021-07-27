@@ -1,0 +1,46 @@
+<app-rf-sidenav></app-rf-sidenav>
+
+<!------------PAGE HEADER----------- -->
+<div class="page-title d-flex justify-content-between align-items-center px-2">
+  <h4>{{ selectedPage }}</h4>
+
+    <button
+      type="button"
+      class="btn btn-icon rounded-circle btn-primary px-2"
+      (click)="openModal()"
+    >
+      <i class="bi bi-plus"></i>
+    </button>
+ 
+  
+</div>
+
+<!-------------LOADING SPINNER-------------- -->
+<app-loading-ripple  *ngIf="isLoading"></app-loading-ripple>
+<!-------------------- TABLE --------------------->
+<app-dynamic-table *ngIf="!isLoading"
+  [colFields]="dynFields"
+  [colData]="tableContent"
+  (onEdit)="edit($event)"
+></app-dynamic-table>
+
+<!------------------     MODAL - FORM  ------------------ -->
+<app-rf-modal>
+  <div class="row py-3">
+    <div class="col-12 d-flex justify-content-between">
+      <h4 class="mb-3">Add {{ selectedPage }}</h4>
+      <button
+        type="button"
+        class="btn btn-primary btn-icon rounded-circle"
+        (click)="closeModal()"
+      >
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+  </div>
+  <!--FORM -->
+  <app-dynamic-form
+    [dynFields]="dynFields"
+    (closeModal)="closeModal()"
+  ></app-dynamic-form>
+</app-rf-modal>

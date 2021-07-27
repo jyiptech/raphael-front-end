@@ -1,0 +1,71 @@
+<div [formGroup]="form" class="form-group">
+  <label [attr.for]="field.key" class="form-label">{{ field.label }}</label>
+
+  <div [ngSwitch]="field.type">
+    <!-- IF DATE FIELD -->
+    <input
+      type="date"
+      class="form-control"
+      [id]="field.key"
+      *ngSwitchCase="'date'"
+      [formControlName]="field.key"
+    />
+
+    <!-- IF DROP DOWN -->
+    <select
+      [id]="field.key"
+      class="form-control"
+      *ngSwitchCase="'dropdown'"
+      [formControlName]="field.key"
+    >
+      <option *ngFor="let opt of field.options" [value]="opt.key">
+        {{ opt.value }}
+      </option>
+    </select>
+
+    <!-- IF CHECKBOX -->
+    <div class="form-check custom-checkbox" *ngSwitchCase="'checkbox'">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        [id]="field.key"
+        [formControlName]="field.key"
+      />
+    </div>
+
+    <!-- ELSE THE REST OF TEXT FIELDS -->
+    <input
+      *ngSwitchDefault
+      class="form-control"
+      [formControlName]="field.key"
+      [id]="field.key"
+      [type]="field.type"
+    />
+  </div>
+
+  <!-- <div class="errorMessage" *ngIf="!isValid">{{ field.label }} is required</div> -->
+
+  <!-- DISPLAYING ERROR MESSAGE BASED ON VALIDATION ERROR TYPE ( REQUIRED,...) -->
+  <!-- NEED TO ADD MORE ERROR MESSAGES  -->
+  <div
+    *ngIf="
+      formControlGetter &&
+      formControlGetter.invalid &&
+      formControlGetter.errors &&
+      (formControlGetter.dirty || formControlGetter.touched)
+    "
+  >
+    <small class="text-danger" *ngIf="formControlGetter.hasError('required')">
+      This field is required.
+    </small>
+    <!-- <small class="text-danger"
+        *ngIf="form.get(field.key).hasError('minlength')">
+        The minimum length for this field is {{form.get(field.key).errors.minlength.requiredLength}} characters.
+    </small>
+    <small class="text-danger"
+        *ngIf="form.get(field.key).hasError('maxlength')">
+        The maximum length for this field is {{form.get(field.key).errors.maxlength.requiredLength}} characters.
+    </small> -->
+    <!-- </div> -->
+  </div>
+</div>
