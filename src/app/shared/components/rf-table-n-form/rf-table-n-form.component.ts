@@ -5,7 +5,9 @@ import { RfTableNFormService } from '../../services/rf-table-n-form.service';
 import { RfModalComponent } from '../rf-modal/rf-modal.component';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { FieldType } from '../../constants/field-info';
-
+import { mergeMap, takeUntil } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth/auth.service';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-rf-table-n-form',
   templateUrl: './rf-table-n-form.component.html',
@@ -16,36 +18,54 @@ export class RfTableNFormComponent implements OnInit {
 
   selectedPage: string = '';
   tableContent: any;
+  roles: Array<any> = [];
+  organizations: Array<any> = [];
+  tagList: Array<any> = ['student'];
   dynFields: Array<FieldType<string>> = [] as Array<FieldType<string>>;
   isLoading: boolean = false;
   @ViewChild(DynamicFormComponent) private dynFormElt!: DynamicFormComponent;
   @ViewChild(RfModalComponent) private rfmodal!: RfModalComponent;
-
+  private unsubscriber$ = new Subject<void>();
+ 
   constructor(
     private route: ActivatedRoute,
     private rfService: RfTableNFormService,
     private configSer: ConfigService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
+    this.route.url.subscribe((params) => {
       // get selected page from sidenav
-      this.selectedPage = params['pagename'];
+      this.selectedPage = params[0].path;
       if (this.selectedPage) {
         // get field names, and info related to it.
         this.rfService.setCurrentPage(this.selectedPage);
+        const _role = this.authService.currUserRole;      
+        
+        this.setDynamicField();
 
-        // REMOVING FIELDS SUCH AS ID, CREATEDON,... CZ THOSE ARE NOT DISPLAYED IN THE FORM
-        this.dynFields = this.rfService
-          .getFields(this.selectedPage)
-          .filter((field:FieldType<any>) => this.filterFields.indexOf(field.key) == -1);
-
-          // GET ALL DATA FOR TABLE
+        // ----- GET ALL DATA FOR TABLE ----
         this.getAllData(this.selectedPage);
       }
     });
   }
 
+ 
+
+  
+  setDynamicField() {
+    this.dynFields = this.rfService
+      .getFields(
+        this.selectedPage,
+        this.roles,
+        this.organizations,
+        this.tagList
+      )
+      .filter(
+        (field: FieldType<any>) => this.filterFields.indexOf(field.key) == -1
+      );
+  }
   // EDIT FORM
   edit(colData: FieldType<any>) {
     this.dynFormElt.onEditForm(colData);
@@ -59,13 +79,16 @@ export class RfTableNFormComponent implements OnInit {
       return;
     }
     // POPULATE TABLE'S DATA
-    this.configSer.getAllData(page).subscribe((data) => {
-      this.tableContent = data;
-      this.isLoading = false;
-    }, (err)=>{
-      this.isLoading = false;
-      alert(err)
-    });
+    this.configSer.getAllData(page).subscribe(
+      (data) => {
+        this.tableContent = data;
+        this.isLoading = false;
+      },
+      (err) => {
+        this.isLoading = false;
+        alert(err);
+      }
+    );
   }
 
   //----------OPEN AND CLOSE MODAL-------------

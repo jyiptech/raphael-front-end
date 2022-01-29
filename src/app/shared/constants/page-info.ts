@@ -6,8 +6,16 @@ export interface PageInfoType {
   logo: string;
   getApis: string;
   postApis: string;
+  
 }
 
+// export enum Role {
+//   SUPER_ADMIN = 1,
+//   ADMIN = 2,
+//   MODERATOR=3,
+//   USER=4
+// }
+export const Roles =  ['SUPERADMIN','ADMIN','MODERATOR','USER'];
 export const PageInfo: { [key: string]: PageInfoType } = {
   contact: {
     fields: [
@@ -16,15 +24,16 @@ export const PageInfo: { [key: string]: PageInfoType } = {
       'phone',
       'dob',
       'company',
+      'tags',
       'email',
       'active',
       'fresher',
-      'organisationId',
       'createdOn',
     ],
     logo: 'person-plus',
-    getApis: 'contact/getAllContacts',
+    getApis: 'contact/all',
     postApis: 'contact/createContact',
+   
   },
   organisation: {
     fields: ['id', 'createdOn', 'name', 'orgUniqueId'],
@@ -35,33 +44,33 @@ export const PageInfo: { [key: string]: PageInfoType } = {
   role: {
     fields: ['id', 'createdOn', 'roleName'],
     logo: 'person-badge',
-    getApis: 'role/getAllRoles',
+    getApis: 'role/getAll',
     postApis: 'role/createRole',
   },
   tag: {
-    fields: ['id', 'createdOn', 'name', 'organisationId'],
+    fields: ['id', 'createdOn', 'name'],
     logo: 'bookmark',
-    getApis: 'tag/getAllTags',
-    postApis: 'tag/createTag',
+    getApis: 'tag/all',
+    postApis: 'tag',
   },
   users: {
-    fields: ['id', 'name', 'phone'],
+    fields: ['id', 'name', 'phone','roleName','email','organisationId'],
     logo: 'people',
     getApis: 'users',
     postApis: 'users',
   },
-  event: {
-    fields: [
-      'name',
-      'description',
-      'startDate',
-      'endDate',
-      'isRecurring',
-      'numberOfOccurence',
-      'occurence',
-    ],
-    logo: 'calendar-event',
-    getApis: 'event/getAllEvents',
-    postApis: 'event',
-  },
+  // event: {
+  //   fields: [
+  //     'name',
+  //     'description',
+  //     'startDate',
+  //     'endDate',
+  //     'isRecurring',
+  //     'numberOfOccurence',
+  //     'occurence',
+  //   ],
+  //   logo: 'calendar-event',
+  //   getApis: 'event/getAllEvents',
+  //   postApis: 'event',
+  // },
 };

@@ -1,0 +1,13 @@
+<div class="grid">
+  <label class="card" *ngFor="let menu of menuList | userRoleFilter " (click)="navToPage(menu)">
+    <div class="card__body">
+      <div class="card__body-cover">
+        <i class="bi card__body-cover-image " [ngClass]="'bi-'+ getClassName(menu)"></i> 
+      </div>
+      <header class="card__body-header">
+        <h2 class="card__body-header-title">{{ getCapsMenuName(menu) }}</h2>
+      </header>
+    </div>
+  </label>
+</div>
+  

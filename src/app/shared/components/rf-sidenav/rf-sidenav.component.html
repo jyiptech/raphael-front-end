@@ -41,18 +41,18 @@
       <hr>
       <!-- HOME MENU ITEM -->
 
-      <li>
-        <a class="s-sidebar-nav-link">
+      <li >
+        <a class="s-sidebar-nav-link" [routerLink] = "['/home']">
           <i class="bi bi-house"></i>
           <em>Home</em>
         </a>
       </li>
 
-     
       <!-- Page list -->
-      <li *ngFor="let menu of menuList">
-        <a class="s-sidebar-nav-link" (click)="navToPage(menu)">
-          <i class="bi " [ngClass]="'bi-'+ pageInfo[menu].logo"></i>
+
+      <li *ngFor="let menu of menuList | userRoleFilter ">
+        <a class="s-sidebar-nav-link" (click)="navToPage(menu)" >
+         <i class="bi " [ngClass]="'bi-'+ getClassName(menu)"></i> 
           <em>{{ getCapsMenuName(menu) }}</em>
         </a>
       </li>

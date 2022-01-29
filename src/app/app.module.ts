@@ -12,8 +12,10 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { AuthComponent } from './auth/auth.component';
 import { FormsModule } from '@angular/forms';
-import { PERSISTENCE } from '@angular/fire/auth';
+// import { PERSISTENCE } from '@angular/fire/auth';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import { HomeComponent } from './home/home.component';
+import { UserRoleFilterPipe } from './shared/pipe/user-role-filter.pipe';
 
 
 // const firebaseUiAuthConfig: firebaseui.auth.Config = {
@@ -30,7 +32,7 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
 //   credentialHelper: firebaseui.auth.CredentialHelper.NONE
 // };
 @NgModule({
-  declarations: [AppComponent, AuthComponent],
+  declarations: [AppComponent, AuthComponent, HomeComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

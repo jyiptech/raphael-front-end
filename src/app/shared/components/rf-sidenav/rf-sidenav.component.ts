@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { Route, Router, Routes } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { PageInfo, PageInfoType } from '../../constants/page-info';
-
+import { appRoutes } from '../rf-table-n-form/rf-table-n-form-routing.module';
 @Component({
   selector: 'app-rf-sidenav',
   templateUrl: './rf-sidenav.component.html',
@@ -11,15 +11,13 @@ import { PageInfo, PageInfoType } from '../../constants/page-info';
 })
 export class RfSidenavComponent implements OnInit {
   pageInfo: { [key: string]: PageInfoType } = PageInfo;
-  menuList: Array<string> = [''];
-
-  constructor(
-    private router: Router,
-    private authService: AuthService
-  ) {}
+  menuList: Routes;
+  constructor(private router: Router, private authService: AuthService) {
+    this.menuList = appRoutes;
+  }
 
   ngOnInit(): void {
-    this.menuList = Object.keys(this.pageInfo);
+    // this.menuList = Object.keys(this.pageInfo);
   }
 
   isOpen: boolean = false;
@@ -28,19 +26,35 @@ export class RfSidenavComponent implements OnInit {
     this.isOpen = !this.isOpen;
   }
 
-  navToPage(pageName: string) {
-    this.router.navigate(['/main', pageName]);
+  navToPage(menu: Route) {
+    if (!menu || !menu.path) return;
+    this.router.navigate(['/main', menu.path]);
   }
 
-  getCapsMenuName(menu: string) {
-    return menu.charAt(0).toUpperCase() + menu.slice(1);
+  getCapsMenuName(menu: any) {
+    if (!menu || !menu.path) return;
+    return menu.path.charAt(0).toUpperCase() + menu.path.slice(1);
   }
 
+  getClassName(menu: any) {
+    if (this.pageInfo?.[menu?.path]?.logo) return this.pageInfo[menu.path].logo;
+    return '';
+  }
   signOut() {
-    this.authService.signOut();
+    let _orgId = localStorage.getItem('orgId');
+   _orgId = (_orgId)? _orgId : '';
+    this.authService.signOut().subscribe((_) => {
+    this.authService.user = null;
+     this.router.navigate(['auth', { orgId: _orgId }]);
+    },
+    (err)=>{
+
+    });
   }
 
   deleteAccount() {
-    this.authService.deleteAccount()?.subscribe((resp) => console.log(resp));
+    this.authService
+      .deleteAccount()
+      ?.subscribe((_) => (this.authService.user = null));
   }
 }

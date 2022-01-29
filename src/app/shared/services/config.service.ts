@@ -11,11 +11,8 @@ const configUrl = 'https://raphael-service.herokuapp.com/api/';
 })
 export class ConfigService {
   pageInfo: { [key: string]: PageInfoType } = PageInfo;
-  constructor(
-    private http: HttpClient
-  ) {
-  }
-
+  constructor(private http: HttpClient) {}
+  pagesWithoutOrgID = ['organisation', 'role']; // api which doesnt need organisation ID added in the request url
   //----------RETURNS CORRESPONDING PAGE'S GETAPIS FROM PAGEINFO CONSTANT--------------
   getGetApi(page: string) {
     return this.pageInfo[page].getApis;
@@ -29,39 +26,48 @@ export class ConfigService {
 
   //----------APPENDING ORG ID FOR EVENT PAGE ONLY--------------
 
-  getPreUrl(page: string, orgId?: number) {
-    // prepends organization ID for event page, else : returns ''
-    return orgId ? orgId + '/' : page == 'event' ? '0/' : '';
-  }
+  // getPreUrl(page: string, orgId: string) {
+  //   // prepends organization ID for event page, else : returns ''
+  //   return orgId ? ( orgId + '/' )  :( (page == 'event' ) ? '0/' : '');
+  // }
 
   //------------RETURNING HTTP REQUEST FOR GET------------
 
-  getAllData(page: string, orgId?: number) {
-    var url = this.getPreUrl(page, orgId) + this.getGetApi(page);
-    return this.http.get(configUrl + url).pipe(catchError(this.handleError));
+  getAllData(page: string, orgId?: string) {
+    let _url =
+      (this.pagesWithoutOrgID.includes(page) ? '' : this.getOrgId(page)) +
+      this.getGetApi(page);
+    return this.http.get(configUrl + _url).pipe(catchError(this.handleError));
+  }
+  //-----RETURNS ORG ID----------
+  getOrgId(_page: string, formObj?:any) {
+    let _orgId;
+    if(_page == 'users' && formObj) // for user page, pass the selected organizationId from dropdown and append in req url
+       _orgId = formObj['organisationId'];
+    else
+      _orgId = localStorage.getItem('orgId');
+    return _orgId ? ( _orgId + '/' ) : '';
   }
 
+  //-------------AFTER SIGNIN, FETCH ROLE-------------------------
+  getRoleApi(emailId: string, orgId: string) {
+    return this.http
+      .get(configUrl + orgId + '/users/' + emailId + '/role')
+      .pipe(catchError(this.handleError));
+  }
   //------------RETURNING HTTP REQUEST FOR POST------------
 
-  postFormData(page: string, formData: object, orgId?: number) {
-    var url = this.getPreUrl(page, orgId) + this.getCreateApi(page);
+  postFormData(page: string, formData: object) {
+    let _url =
+      (this.pagesWithoutOrgID.includes(page) ? '' : this.getOrgId(page , formData)) +
+      this.getCreateApi(page);
     return this.http
-      .post(configUrl + url, formData)
+      .post(configUrl + _url, formData)
       .pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {
-    if (error.status === 0) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong.
-      console.error(
-        `Backend returned code ${error.status}, ` + `body was: ${error.error}`
-      );
-    }
-    // Return an observable with a user-facing error message.
+    // alert(error);
     return throwError('Something bad happened; please try again later.');
   }
 }

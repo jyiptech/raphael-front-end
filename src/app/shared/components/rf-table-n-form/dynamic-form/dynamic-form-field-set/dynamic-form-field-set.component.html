@@ -1,6 +1,7 @@
 <div [formGroup]="form" class="form-group">
   <label [attr.for]="field.key" class="form-label">{{ field.label }}</label>
 
+  <div *ngIf="isLoading">Loading ....</div>
   <div [ngSwitch]="field.type">
     <!-- IF DATE FIELD -->
     <input
@@ -12,16 +13,19 @@
     />
 
     <!-- IF DROP DOWN -->
-    <select
-      [id]="field.key"
-      class="form-control"
-      *ngSwitchCase="'dropdown'"
-      [formControlName]="field.key"
-    >
-      <option *ngFor="let opt of field.options" [value]="opt.key">
-        {{ opt.value }}
-      </option>
-    </select>
+    <div *ngSwitchCase="'dropdown'">
+      <ng-container *ngIf="field.options[0]">
+        <select
+          [id]="field.key"
+          class="form-control"
+          [formControlName]="field.key"
+        >
+          <option *ngFor="let opt of field.options" [value]="opt.key">
+            {{ opt.value }}
+          </option>
+        </select>
+      </ng-container>
+    </div>
 
     <!-- IF CHECKBOX -->
     <div class="form-check custom-checkbox" *ngSwitchCase="'checkbox'">
@@ -31,6 +35,19 @@
         [id]="field.key"
         [formControlName]="field.key"
       />
+    </div>
+
+    <!-- IF MULTI SELECT -->
+    <div *ngSwitchCase="'multidropdown'">
+      <ng-container *ngIf="field.options[0]">
+        <ng-multiselect-dropdown
+          [settings]="dropdownSettings"
+          [placeholder]="'Select'"
+          [data]="field.options"
+          [formControlName]="field.key"
+        >
+        </ng-multiselect-dropdown>
+      </ng-container>
     </div>
 
     <!-- ELSE THE REST OF TEXT FIELDS -->

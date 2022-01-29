@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FieldType,FieldInfo } from '../constants/field-info';
-import { PageInfoType ,PageInfo} from '../constants/page-info';
+import { FieldType, FieldInfo } from '../constants/field-info';
+import { PageInfoType, PageInfo } from '../constants/page-info';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RfTableNFormService {
-  readonly fieldInfo : { [key: string]: FieldType<any> } = FieldInfo;;
+  readonly fieldInfo: { [key: string]: FieldType<any> } = FieldInfo;
   currentPage: string = '';
-  readonly pageInfo: { [key: string]: PageInfoType }  = PageInfo;;
+  readonly pageInfo: { [key: string]: PageInfoType } = PageInfo;
 
-  constructor() {
-   
-  }
+  constructor(private configService: ConfigService) {}
 
   // converting to form group
   toFormGroup(dynFields: FieldType<any>[]) {
@@ -48,27 +47,34 @@ export class RfTableNFormService {
     return new FormGroup(group);
   }
 
-  // TODO: get from a remote source of question metadata
-  getFields(pageName: string) {
+  getFields(pageName: string, roles?: Array<any>, organizations?: Array<any>,tagList? : Array<any>) {
     return this.getPageInfo(pageName).sort(
       (a: any, b: any) => a.order - b.order
     );
   }
 
   // get the fields corresponding to the page name
-  getPageInfo(pageName: string) {
+  getPageInfo(
+    pageName: string,
+  ) {
     var pageFieldMap: any = [];
-    if (this.pageInfo[pageName].fields)
+   
       this.pageInfo[pageName].fields.forEach((key: any) => {
-        pageFieldMap.push(this.fieldInfo[key]);
+     
+         pageFieldMap.push(this.fieldInfo[key]);
       });
-    else {
-      console.warn('incorrect page name passed');
-      return [];
-    }
+    
     return pageFieldMap;
   }
 
+  convertToKeyValue(dropdownOptions: any) {
+    return dropdownOptions.map((option: any) => {
+      return {
+        key: (option && (option.orgUniqueId != null) && (typeof option.orgUniqueId != undefined)) ? option.orgUniqueId : option,
+        value: (option && option.name )? option.name : option,
+      };
+    });
+  }
   getCurrentPage() {
     return this.currentPage;
   }
@@ -80,7 +86,7 @@ export class RfTableNFormService {
     return this.pageInfo;
   }
 
-  getFieldInfoConst(){
+  getFieldInfoConst() {
     return this.fieldInfo;
   }
 }

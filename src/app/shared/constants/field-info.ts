@@ -90,9 +90,9 @@ export const FieldInfo: { [key: string]: FieldType<any> } = {
     organisationId: new FieldType<number>({
       label: 'Organisation ID',
       key: 'organisationId',
-      required: true,
+      required: false,
       order: 5,
-      type: 'number',
+      type: 'dropdown',
     }),
     orgUniqueId: new FieldType<number>({
       label: 'Organisation Unique ID',
@@ -113,7 +113,7 @@ export const FieldInfo: { [key: string]: FieldType<any> } = {
       key: 'roleName',
       required: true,
       order: 1,
-      type: 'text',
+      type: 'dropdown'
     }),
     description: new FieldType<string>({
       label: 'Description',
@@ -157,6 +157,13 @@ export const FieldInfo: { [key: string]: FieldType<any> } = {
       order: 1,
       type: 'text',
     }),
+    tags:new FieldType<any>({
+      label: 'Tags',
+      key: 'tags',
+      required: true,
+      order: 1,
+      type: 'multidropdown',
+    })
   };
   
   

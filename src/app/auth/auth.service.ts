@@ -21,11 +21,30 @@ export interface AuthResponseData {
 export class AuthService {
   userData$: Observable<firebase.User | null>;
   user!: firebase.User | null;
+  private _currUserRole?: string;
   constructor(private angularFireAuth: AngularFireAuth) {
     this.userData$ = angularFireAuth?.authState;
-    this.userData$.subscribe((response) => (this.user = response));
   }
 
+  // --------------Returns true when user is logged in and email is verified
+  get isLoggedIn(): boolean {
+    return !!this.user;
+  }
+
+  // ---------------GET CURRENT USER ROLE---------------------------
+  get currUserRole() {
+    if (!this._currUserRole) { // if page refreshed
+      const _role = localStorage.getItem('__role');
+      return _role? _role.toUpperCase() : '';
+    }
+    return this._currUserRole.toUpperCase();
+  }
+
+  //-------------------SET CURRENT USER ROLE---------------------------
+  set currUserRole(userRole : string) {
+    this._currUserRole = userRole;
+    localStorage.setItem('__role', userRole);
+  }
   // -------------FETCHES JWT-----------------
   public getToken$(): Observable<firebase.auth.IdTokenResult> {
     return from(this.angularFireAuth.currentUser).pipe(
@@ -42,7 +61,10 @@ export class AuthService {
     this.angularFireAuth.onAuthStateChanged((user) => {
       if (user) {
         // code
+        this.user = user;
       } else {
+        this.user = null;
+        // localStorage.setItem('user', '');
         this.angularFireAuth.signOut();
       }
     });

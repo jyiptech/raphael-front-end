@@ -1,0 +1,65 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  background: #4e73df; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    180deg,
+    #4e73df 10%,
+    #224abe 100%
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+}
+.card {
+  --card-height: 190px;
+  --card-width: 190px;
+  user-select: none;
+  transition: all 0.3s;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  &:hover {
+     box-shadow: 0px 4px 8px 0px rgb(85, 88, 114);
+     background-color: rgba(255, 255, 255, 1);
+    }
+  &__body {
+    display: grid;
+    grid-auto-rows: calc(var(--card-height) - var(--header-height)) auto;
+    background: var(--background);
+    height: var(--card-height);
+    width: var(--card-width);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    i {
+      font-size: 5rem;
+      width: fit-content;
+      color: dimgray;
+    }
+
+    &-cover {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &-header {
+      height: var(--header-height);
+      padding: 0 10px 10px 10px;
+      &-title {
+        color: var(--text-headline);
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: dimgray;
+        text-align: center !important;
+      }
+    }
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 1rem;
+}

@@ -1,4 +1,5 @@
 import {
+  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
@@ -6,8 +7,8 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { exhaustMap, take } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, exhaustMap, take } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -35,11 +36,21 @@ export class AuthInterceptorService implements HttpInterceptor {
       exhaustMap((user) => {
         const modifiedReq = req.clone({
           setHeaders: {
-            Authorization: `Bearer ${user.token}`
-          }
+            Authorization: `Bearer ${user.token}`,
+          },
           // params: new HttpParams().set('Authorization','Bearer '+ user.token),
         });
         return next.handle(modifiedReq);
+      }),
+      catchError((err: any, caught: Observable<any>) => {
+        if ([401, 403].indexOf(err.status) !== -1) {
+          //     // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
+          this.authService.signOut();
+        }
+
+        const error = err.error.message || err.statusText;
+        return throwError(error);
+        // })
       })
     );
   }
