@@ -50,7 +50,7 @@ export const FieldInfo: { [key: string]: FieldType<any> } = {
       key: 'phone',
       required: true,
       order: 2,
-      type: 'number',
+      type: 'text',
     }),
     dob: new FieldType<Date>({
       label: 'DOB',

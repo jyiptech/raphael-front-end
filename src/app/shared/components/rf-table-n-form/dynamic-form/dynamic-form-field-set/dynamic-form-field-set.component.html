@@ -75,6 +75,15 @@
     <small class="text-danger" *ngIf="formControlGetter.hasError('required')">
       This field is required.
     </small>
+
+   
+    <small class="text-danger" *ngIf="field.key ==='phone' && formControlGetter?.errors?.pattern">
+     Country code is required.
+    </small>
+
+    <small class="text-danger" *ngIf="field.key ==='email' && formControlGetter?.errors?.pattern">
+      Email format is invalid.
+     </small>
     <!-- <small class="text-danger"
         *ngIf="form.get(field.key).hasError('minlength')">
         The minimum length for this field is {{form.get(field.key).errors.minlength.requiredLength}} characters.

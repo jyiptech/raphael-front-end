@@ -13,8 +13,8 @@
   background: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
 }
 .card {
-  --card-height: 190px;
-  --card-width: 190px;
+  --card-height: 23vw;
+  --card-width: 23vw;
   user-select: none;
   transition: all 0.3s;
   background-color: rgba(255, 255, 255, 0.6);
@@ -50,6 +50,7 @@
       &-title {
         color: var(--text-headline);
         font-weight: 700;
+        font-size: 1.3rem;
         margin-bottom: 8px;
         color: dimgray;
         text-align: center !important;

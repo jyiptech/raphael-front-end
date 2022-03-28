@@ -40,7 +40,7 @@ a {
   position: fixed;
   top: 0;
   left: -15rem;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   transition: all 0.3s ease-in;
   width: 15rem;
@@ -104,8 +104,8 @@ a {
 /* Mobile First */
 @media (min-width: 768px) {
   main.s-layout-content > app-rf-table-n-form{
-    margin-left: 4rem;
-    width: calc(100% - 4rem);
+    margin-left: 3.56rem;
+    width: calc(100% - 3.56rem);
   }
   
   /* Sidebar */
@@ -115,7 +115,7 @@ a {
   }
 
   .s-sidebar-nav {
-    width: 4rem;
+    width: 3.56rem;
     left: 0 !important;
     .nav-title-wrap {
       margin-left: 0.5rem;

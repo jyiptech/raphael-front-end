@@ -36,7 +36,7 @@ export class DynamicFormComponent implements OnInit {
     this.form = this.tfService.toFormGroup(this.dynFields);
   }
   transformAPIParams() {
-    const apiParams = {...this.form.value};
+    const apiParams = { ...this.form.value };
     // --------- DATE--------
 
     // By Default, date format is formcontrol is 'mm/dd/yyyy', here it is transformed into utc format
@@ -48,24 +48,20 @@ export class DynamicFormComponent implements OnInit {
         apiParams[str] = new Date(apiParams[str]);
       });
 
-      // ----------MULTISELECT DROPDOWN----------
-      if('tags' in apiParams &&  apiParams.tags && apiParams.tags[0]){
-        apiParams['tags'] =this.form.value.tags.map(
-          (val:any) =>  val.key?.id
-        )
-      }
-      return apiParams;
+    // ----------MULTISELECT DROPDOWN----------
+    if ('tags' in apiParams && apiParams.tags && apiParams.tags[0]) {
+      apiParams['tags'] = this.form.value.tags.map((val: any) => val.key?.id);
+    }
+    return apiParams;
   }
   onSubmit() {
     const apiParams = this.transformAPIParams();
     this.payLoad = JSON.stringify(apiParams);
-
+    this.form.markAllAsTouched();
     if (this.form.valid) {
       const _currPage = this.tfService.getCurrentPage();
       if (!_currPage) return;
       let _requestData = apiParams;
-
-    
 
       this.configServ
         .postFormData(_currPage, _requestData)

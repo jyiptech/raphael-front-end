@@ -186,7 +186,7 @@ h4 {
 
 //---------------- ERROR FIELD STYLE
 
-.ng-invalid.ng-dirty.form-control,
+.ng-invalid.ng-dirty.form-control,.ng-invalid.ng-touched.form-control,
 .form-control:focus.ng-dirty.ng-invalid:not(form) {
   border: 1px solid #a94442;
   border-left: 5px solid #a94442; /* red */

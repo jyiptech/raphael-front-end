@@ -24,13 +24,6 @@ export class ConfigService {
     return this.pageInfo[page].postApis;
   }
 
-  //----------APPENDING ORG ID FOR EVENT PAGE ONLY--------------
-
-  // getPreUrl(page: string, orgId: string) {
-  //   // prepends organization ID for event page, else : returns ''
-  //   return orgId ? ( orgId + '/' )  :( (page == 'event' ) ? '0/' : '');
-  // }
-
   //------------RETURNING HTTP REQUEST FOR GET------------
 
   getAllData(page: string, orgId?: string) {
@@ -49,7 +42,7 @@ export class ConfigService {
     return _orgId ? ( _orgId + '/' ) : '';
   }
 
-  //-------------AFTER SIGNIN, FETCH ROLE-------------------------
+  //-------------AFTER SIGNIN, FETCH ROLE------------------------- 
   getRoleApi(emailId: string, orgId: string) {
     return this.http
       .get(configUrl + orgId + '/users/' + emailId + '/role')
